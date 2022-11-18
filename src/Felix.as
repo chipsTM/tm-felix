@@ -11,12 +11,14 @@ enum FelixAnimation {
     Scared   
 };
 
-class Felix {
+class Felix : Animation {
     vec2 position;
     int scaleFactor = 3;
     uint animationTick = 0;
     FelixAnimation curAnimation = FelixAnimation::Movement2;
     UI::Texture@ atlas;
+    int sprite_width = 32;
+    int sprite_height = 32;
     int loops = 0;
     int times = 10;
     int curXDir = -1;
@@ -40,28 +42,28 @@ class Felix {
         position = vec2(Math::Rand(0, g_width), Math::Rand(0, g_height));
     }
 
-    void Render() {
+    void Render() override {
         auto drawlist = UI::GetForegroundDrawList();
 
-        int windowFlags = UI::WindowFlags::NoTitleBar | UI::WindowFlags::NoCollapse | UI::WindowFlags::AlwaysAutoResize | UI::WindowFlags::NoDocking | UI::WindowFlags::NoInputs;
-        
         UI::PushStyleColor(UI::Col::WindowBg, vec4(0,0,0,0));
+        UI::PushStyleColor(UI::Col::Border, vec4(0,0,0,0));
+        int windowFlags = UI::WindowFlags::NoTitleBar | UI::WindowFlags::NoCollapse | UI::WindowFlags::AlwaysAutoResize | UI::WindowFlags::NoDocking | UI::WindowFlags::NoInputs;
         UI::Begin("Felix", windowFlags);
         
         // we add 1 to the y component of uv to remove artifacting
-        drawlist.AddImage(atlas, position, vec2(32*scaleFactor*curXDir,32*scaleFactor), 0xFFFFFFFF, vec4(32*animationTick, 32*curAnimation+1, 32, 32));
+        drawlist.AddImage(atlas, position, vec2(sprite_width*scaleFactor*curXDir,sprite_height*scaleFactor), 0xFFFFFFFF, vec4(sprite_width*animationTick, sprite_height*curAnimation+1, sprite_width, sprite_height));
         
         uint frames = uint(aniFrames[tostring(curAnimation)]);
         if (g_dt >= 100) {
-            if (position.x >= g_width - 32) {
+            if (position.x >= g_width - sprite_width) {
                 curXDir = -1;
-            } else if (position.x <= 32) {
+            } else if (position.x <= sprite_width) {
                 curXDir = 1;
             }
 
-            if (position.y >= g_height - 32) {
+            if (position.y >= g_height - sprite_height) {
                 curYDir = -1;
-            } else if (position.y <= 32) {
+            } else if (position.y <= sprite_height) {
                 curYDir = 1;
             }
 
@@ -100,6 +102,6 @@ class Felix {
         }
 
         UI::End();
-        UI::PopStyleColor();
+        UI::PopStyleColor(2);
     }
 }
