@@ -8,10 +8,9 @@ enum PausePhantAnimation {
 };
 
 class PausePhant : Animation {
-    vec2 position;
     int scaleFactor = 1;
     uint animationTick = 0;
-    PausePhantAnimation curAnimation = PausePhantAnimation::Move;
+    PausePhantAnimation curAnimation = PausePhantAnimation::Idle;
     UI::Texture@ atlas;
     int sprite_width = 128;
     int sprite_height = 128;
@@ -31,7 +30,7 @@ class PausePhant : Animation {
 
     PausePhant(UI::Texture@ at) {
         @atlas = @at;
-        position = vec2(Math::Rand(0, g_width), Math::Rand(0, g_height));
+        position = vec2(Math::Rand(0, g_width-sprite_width*scaleFactor), Math::Rand(0, g_height-sprite_height*scaleFactor));
     }
 
     void Render() override {
@@ -42,19 +41,23 @@ class PausePhant : Animation {
         int windowFlags = UI::WindowFlags::NoTitleBar | UI::WindowFlags::NoCollapse | UI::WindowFlags::AlwaysAutoResize | UI::WindowFlags::NoDocking | UI::WindowFlags::NoInputs;
         UI::Begin("PausePhant", windowFlags);
         
-        drawlist.AddImage(atlas, position, vec2(sprite_width*scaleFactor*curXDir,sprite_height*scaleFactor), 0xFFFFFFFF, vec4(sprite_width*animationTick, sprite_height*curAnimation, sprite_width, sprite_height));
-
+        if (curXDir == -1) {
+            drawlist.AddImage(atlas, vec2(position.x+sprite_width*scaleFactor, position.y), vec2(sprite_width*scaleFactor*curXDir,sprite_height*scaleFactor), 0xFFFFFFFF, vec4(sprite_width*animationTick, sprite_height*curAnimation, sprite_width, sprite_height));
+        } else {
+            drawlist.AddImage(atlas, position, vec2(sprite_width*scaleFactor*curXDir,sprite_height*scaleFactor), 0xFFFFFFFF, vec4(sprite_width*animationTick, sprite_height*curAnimation, sprite_width, sprite_height));
+        }
+        
         uint frames = uint(aniFrames[tostring(curAnimation)]);
         if (g_dt >= 150) {
             if (position.x >= g_width - sprite_width) {
                 curXDir = -1;
-            } else if (position.x <= sprite_width) {
+            } else if (position.x <= 0) {
                 curXDir = 1;
             }
 
             if (position.y >= g_height - sprite_height) {
                 curYDir = -1;
-            } else if (position.y <= sprite_height) {
+            } else if (position.y <= 0) {
                 curYDir = 1;
             }
 
@@ -70,7 +73,7 @@ class PausePhant : Animation {
             }
             g_dt = 0;
             if (loops >= times * frames - 1) {
-                if (curAnimation == PausePhantAnimation::Idle) {	
+                if (curAnimation == PausePhantAnimation::Idle) {
                     curAnimation = PausePhantAnimation(Math::Rand(1,6));
                     loops = 0;
                     switch (curAnimation) {

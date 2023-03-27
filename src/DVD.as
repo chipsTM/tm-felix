@@ -1,5 +1,4 @@
 class DVD : Animation {
-    vec2 position;
     int scaleFactor = 1;
     UI::Texture@ atlas;
     int sprite_width = 192;
@@ -10,7 +9,7 @@ class DVD : Animation {
 
     DVD(UI::Texture@ at) {
         @atlas = @at;
-        position = vec2(Math::Rand(0, g_width), Math::Rand(0, g_height));
+        position = vec2(Math::Rand(0, g_width-sprite_width*scaleFactor), Math::Rand(0, g_height-sprite_height*scaleFactor));
         generateColor();
     }
 

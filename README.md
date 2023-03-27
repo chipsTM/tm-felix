@@ -9,12 +9,20 @@
 ## Features
 - Characters
     - Felix
+    - Prometheus
+    - Steve
+    - Gerard
     - PausePhant
-    - DVD
+    - DVD Logo
+    - Felix Original
 
 - Meow
 
 ## Changelog
+
+### v1.2
+- New Characters
+    - HD Felix and Friends - created by Arachidamia
 
 ### v1.1
 - New Characters

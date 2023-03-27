@@ -1,23 +1,23 @@
-enum FelixAnimation {
-    Idle1,
-    Idle2,
-    Clean1,
-    Clean2,
-    Movement1,
-    Movement2,
-    Sleep,
-    Paw,
-    Jump,
-    Scared   
-};
+// enum ArachFelixAnimation {
+//     Idle1,
+//     Idle2,
+//     Clean1,
+//     Clean2,
+//     Movement1,
+//     Movement2,
+//     Sleep,
+//     Paw,
+//     Jump,
+//     Scared   
+// };
 
-class Felix : Animation {
-    int scaleFactor = 3;
+class ArachFelix : Animation {
+    int scaleFactor = 1;
     uint animationTick = 0;
     FelixAnimation curAnimation = FelixAnimation::Idle1;
     UI::Texture@ atlas;
-    int sprite_width = 32;
-    int sprite_height = 32;
+    int sprite_width = 72;
+    int sprite_height = 72;
     int loops = 0;
     int times = 10;
     int curXDir = -1;
@@ -36,7 +36,7 @@ class Felix : Animation {
         { tostring(FelixAnimation::Scared), 8}
     };
 
-    Felix(UI::Texture@ at) {
+    ArachFelix(UI::Texture@ at) {
         @atlas = @at;
         position = vec2(Math::Rand(0, g_width-sprite_width*scaleFactor), Math::Rand(0, g_height-sprite_height*scaleFactor));
     }
@@ -47,7 +47,7 @@ class Felix : Animation {
         UI::PushStyleColor(UI::Col::WindowBg, vec4(0,0,0,0));
         UI::PushStyleColor(UI::Col::Border, vec4(0,0,0,0));
         int windowFlags = UI::WindowFlags::NoTitleBar | UI::WindowFlags::NoCollapse | UI::WindowFlags::AlwaysAutoResize | UI::WindowFlags::NoDocking | UI::WindowFlags::NoInputs;
-        UI::Begin("Felix", windowFlags);
+        UI::Begin("ArachFelix", windowFlags);
         
         // we add 1 to the y component of uv to remove artifacting
         if (curXDir == -1) {
