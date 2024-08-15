@@ -20,6 +20,9 @@
 
 ## Changelog
 
+### v1.2.1
+- add support for TURBO
+
 ### v1.2
 - New Characters
     - HD Felix and Friends - created by Arachidamia
