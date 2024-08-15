@@ -26,15 +26,15 @@ void Update(float dt) {
 }
 
 void UpdateWindowSize() {
+#if TURBO
+    g_width = Draw::GetWidth();
+    g_height = Draw::GetHeight();
+#else
     auto app = cast<CTrackMania>(GetApp());
     if (app.ManiaPlanetScriptAPI.DisplaySettings is null) {
         app.ManiaPlanetScriptAPI.DisplaySettings_LoadCurrent();
     }
     auto windowSize = app.ManiaPlanetScriptAPI.DisplaySettings.WindowSize;
-#if TURBO
-    g_width = Draw::GetWidth();
-    g_height = Draw::GetHeight();
-#else
     g_width = windowSize.x;
     g_height = windowSize.y;
 #endif
