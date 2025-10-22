@@ -34,7 +34,7 @@ void UpdateWindowSize() {
     if (app.ManiaPlanetScriptAPI.DisplaySettings is null) {
         app.ManiaPlanetScriptAPI.DisplaySettings_LoadCurrent();
     }
-    auto windowSize = app.ManiaPlanetScriptAPI.DisplaySettings.WindowSize;
+    auto windowSize = app.ManiaPlanetScriptAPI.DisplaySettings.WindowFullSize;
     g_width = windowSize.x;
     g_height = windowSize.y;
 #endif
